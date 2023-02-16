@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+# importuje widoki w mojej apki
+from lists import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # utworzenie polaczenia miedzy url '' a widokiem home_page
+    path('', views.home_page, name='home')
+    # path('admin/', admin.site.urls),
 ]

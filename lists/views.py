@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+# tu utworzymy widoki
+def home_page():
+    pass
