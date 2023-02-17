@@ -19,7 +19,7 @@ class NewVisitorTest(unittest.TestCase):
         # sprawdzenie poprawności tytułu strony
         self.assertIn("Listy", self.browser.title)
         header_text = self.browser.find_element(by="tag name", value="h1").text
-        self.assertIn("Listy", header_text)
+        self.assertIn("Twoja lista", header_text)
         # wpisanie pierwszego hobby
         inputbox = self.browser.find_element(by="id", value='id_new_item')
         self.assertEqual(inputbox.get_attribute('placeholder'), "Wpisz rzeczy do zrobienia")
@@ -28,7 +28,8 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
         table = self.browser.find_element(by="id", value='id_list_table')
         rows = table.find_elements(by='tag name', value='tr')
-        self.assertTrue(any(row.text == '1: Kupić pawie pióra' for row in rows))
+        self.assertTrue(any(row.text == '1: Kupić pawie pióra' for row in rows),
+                        "Nowy element nie znajduje się w tabeli")
         # nadal mamy mozliwość wpisania zadania, wpisanie kolejnego zadania
 
         # wystepuja dwie pozycje na liscie
