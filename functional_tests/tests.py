@@ -1,10 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import unittest
+from django.test import LiveServerTestCase
 from time import sleep
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     # metoda przed każdym testem (tu wybierzemy przegladarke)
     def setUp(self) -> None:
         self.browser = webdriver.Firefox()
@@ -21,7 +21,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # przejście na stronę główą aplikacji
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # sprawdzenie poprawności tytułu strony
         self.assertIn("Listy", self.browser.title)
@@ -54,6 +54,4 @@ class NewVisitorTest(unittest.TestCase):
         # koniec
         self.fail("Zakonczenie testu")
 
-
-if __name__ == '__main__':
-    unittest.main()
+# bez __name__ == __main__ bo używamy silnika testów django
