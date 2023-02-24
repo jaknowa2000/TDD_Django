@@ -42,7 +42,7 @@ class NewVisitorTest(LiveServerTestCase):
         # sprawdzenie poprawności tytułu strony
         self.assertIn("Listy", self.browser.title)
         header_text = self.browser.find_element(by="tag name", value="h1").text
-        self.assertIn("Twoja lista", header_text)
+        self.assertIn("Utwórz nową listę", header_text)
 
         # wpisanie pierwszego hobby
         inputbox = self.browser.find_element(by="id", value='id_new_item')
@@ -51,9 +51,9 @@ class NewVisitorTest(LiveServerTestCase):
 
         # wciśnięcie klawisza enter, wyświetla pierwsze hobby
         inputbox.send_keys(Keys.ENTER)
-        user1_list_url = self.browser.current_url
-        self.assertRegex(user1_list_url, '/lists/.+') # sprawdzenie czy pasuje do wyrażenia regilarnego
         self.wait_for_row_in_list_table('1: Kupić pawie pióra')
+        user1_list_url = self.browser.current_url
+        self.assertRegex(user1_list_url, '/lists/.+')  # sprawdzenie czy pasuje do wyrażenia regilarnego
 
         # nadal mamy mozliwość wpisania zadania, wpisanie kolejnego zadania
         inputbox = self.browser.find_element(by='id', value='id_new_item')

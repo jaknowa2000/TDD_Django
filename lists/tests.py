@@ -17,23 +17,11 @@ class HomePageTest(TestCase):
     def test_redirect_after_POST(self):
         response = self.client.post('/', data={'item_text': 'Nowy element listy'})
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/')
+        self.assertEqual(response['location'], '/lists/whatever/')
 
     def test_home_page_only_saves_items_when_necessary(self):
         self.client.get('/')
         self.assertEqual(Item.objects.count(), 0)
-
-    def test_home_page_displays_all_list_items(self):
-        # typowa składnia testu (setup)
-        Item.objects.create(text='element 1')
-        Item.objects.create(text='element 2')
-
-        # exercise
-        response = self.client.get('/')
-
-        # assert
-        self.assertIn('element 1', response.content.decode())
-        self.assertIn('element 2', response.content.decode())
 
 
 class ItemModelTest(TestCase):
@@ -55,3 +43,21 @@ class ItemModelTest(TestCase):
         second_saved_item = saved_items[1]
         self.assertEqual(first_saved_item.text, 'Absolutnie pierwszy element')
         self.assertEqual(second_saved_item.text, 'Drugi element')
+
+
+class ListViewTest(TestCase):
+    def test_uses_list_template(self):
+        response = self.client.get('/lists/whatever/')
+        self.assertTemplateUsed(response, 'list.html')
+
+    def test_display_all_items(self):
+        # typowa składnia testu (setup)
+        Item.objects.create(text='element 1')
+        Item.objects.create(text='element 2')
+
+        # exercise
+        response = self.client.get('/lists/whatever/')
+
+        # assert
+        self.assertContains(response, 'element 1')
+        self.assertContains(response, 'element 2')

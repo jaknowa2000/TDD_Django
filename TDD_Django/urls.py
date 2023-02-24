@@ -13,13 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+# from django.contrib import admin
 from django.urls import path
 # importuje widoki w mojej apki
 from lists import views
 
 urlpatterns = [
     # utworzenie polaczenia miedzy url '' a widokiem home_page
-    path('', views.home_page, name='home')
+    path('', views.home_page, name='home'),
+    path('lists/whatever/', views.view_list, name='view_list')
     # path('admin/', admin.site.urls),
 ]
