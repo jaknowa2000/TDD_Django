@@ -7,22 +7,6 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
 
-    def test_can_save_a_POST_request(self):
-        self.client.post('/', data={'item_text': 'Nowy element listy'})
-        # sprawdzenie czy obiekt zapisał sie w bazie danych
-        self.assertEqual(Item.objects.count(), 1)
-        new_item = Item.objects.first()
-        self.assertEqual(new_item.text, 'Nowy element listy')
-
-    def test_redirect_after_POST(self):
-        response = self.client.post('/', data={'item_text': 'Nowy element listy'})
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/lists/whatever/')
-
-    def test_home_page_only_saves_items_when_necessary(self):
-        self.client.get('/')
-        self.assertEqual(Item.objects.count(), 0)
-
 
 class ItemModelTest(TestCase):
     def test_saving_and_retrieving_items(self):
@@ -61,3 +45,18 @@ class ListViewTest(TestCase):
         # assert
         self.assertContains(response, 'element 1')
         self.assertContains(response, 'element 2')
+
+
+class NewListTest(TestCase):
+    def test_can_save_a_POST_request(self):
+        self.client.post('/lists/new', data={'item_text': 'Nowy element listy'})
+        # sprawdzenie czy obiekt zapisał sie w bazie danych
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, 'Nowy element listy')
+
+    def test_redirect_after_POST(self):
+        response = self.client.post('/lists/new', data={'item_text': 'Nowy element listy'})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/lists/whatever/')
+

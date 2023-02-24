@@ -21,6 +21,7 @@ from lists import views
 urlpatterns = [
     # utworzenie polaczenia miedzy url '' a widokiem home_page
     path('', views.home_page, name='home'),
-    path('lists/whatever/', views.view_list, name='view_list')
+    path('lists/whatever/', views.view_list, name='view_list'),
+    path('lists/new', views.new_list, name='new_list'),
     # path('admin/', admin.site.urls),
 ]
