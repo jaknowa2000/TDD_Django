@@ -6,13 +6,14 @@
 </head>
 <body>
     <h1>Twoja lista rzeczy do zrobienia</h1>
-    <form method="POST" action="/lists/new">
+    <form method="POST" action="/lists/{{ list.id }}/add_item">
         <label for="id_new_item"></label>
         <input name="item_text" id="id_new_item" placeholder="Wpisz rzeczy do zrobienia" />
         {% csrf_token %}
     </form>
     <table id="id_list_table">
-        {% for item in items %} <!--dzieki temu dla kazdego idema powstanie wierszw tabeli <tr></tr>-->
+        {% for item in list.item_set.all %} <!--dzieki temu dla kazdego idema powstanie wierszw tabeli <tr></tr>-->
+            <!--item_set - wazne, odwrotne wyszukiwanie-->
         <tr><td>{{ forloop.counter }}: {{ item.text }}</td></tr>
         {% endfor %}
     </table>
