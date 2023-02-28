@@ -7,8 +7,10 @@
 <body>
     <h1>Utwórz nową listę rzeczy do zrobienia</h1>
     <form method="POST" action="/lists/new">
+        <p style="text-align: center;">
         <label for="id_new_item"></label>
         <input name="item_text" id="id_new_item" placeholder="Wpisz rzeczy do zrobienia" />
+        </p>
         {% csrf_token %}
     </form>
 </body>

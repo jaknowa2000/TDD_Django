@@ -94,4 +94,18 @@ class NewVisitorTest(LiveServerTestCase):
         # koniec
         self.fail("Zakonczenie testu")
 
+    def test_layout_and_styling(self):
+        # user 1 przeszedł na stronę główną
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        # pole tekstowe jest wyśrodkowane
+        inputbox = self.browser.find_element(by='id', value='id_new_item')
+        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=5)
+
+        # na nowej liście pole dalej jest wyśrodkowane
+        inputbox.send_keys('test\n')
+        inputbox = self.browser.find_element(by='id', value='id_new_item')
+        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=5)
+
 # bez __name__ == __main__ bo używamy silnika testów django
