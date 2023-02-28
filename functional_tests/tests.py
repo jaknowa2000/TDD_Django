@@ -1,13 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
-from django.test import LiveServerTestCase
+# from django.test import LiveServerTestCase  # zastapimy lepszą
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from time import sleep, time
 
 MAX_WAIT = 10
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     # metoda przed każdym testem (tu wybierzemy przegladarke)
     def setUp(self) -> None:
         self.browser = webdriver.Firefox()
