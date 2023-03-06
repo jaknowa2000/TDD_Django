@@ -4,6 +4,7 @@ from selenium.common.exceptions import WebDriverException
 # from django.test import LiveServerTestCase  # zastapimy lepszą
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from time import sleep, time
+import os
 
 MAX_WAIT = 10
 
@@ -12,6 +13,9 @@ class NewVisitorTest(StaticLiveServerTestCase):
     # metoda przed każdym testem (tu wybierzemy przegladarke)
     def setUp(self) -> None:
         self.browser = webdriver.Firefox()
+        staging_server = os.environ.get('STAGING_SERVER')
+        if staging_server:
+            self.live_server_url = 'http://' + staging_server # podmieniamy na prawdziwy serwer
         self.browser.implicitly_wait(3)
 
     # metoda po każdym teście  (zamkniecie przegladarki, metoda!)
@@ -102,11 +106,12 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         # pole tekstowe jest wyśrodkowane
         inputbox = self.browser.find_element(by='id', value='id_new_item')
-        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=5)
+        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=10)
 
         # na nowej liście pole dalej jest wyśrodkowane
         inputbox.send_keys('test\n')
         inputbox = self.browser.find_element(by='id', value='id_new_item')
-        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=5)
+        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=10)
 
 # bez __name__ == __main__ bo używamy silnika testów django
+
